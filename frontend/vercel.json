@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/university-inventory/browser",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://inventory-angh.onrender.com/api/:path*"
+    },
+    {
+      "source": "/swagger-ui/:path*",
+      "destination": "https://inventory-angh.onrender.com/swagger-ui/:path*"
+    },
+    {
+      "source": "/v3/api-docs/:path*",
+      "destination": "https://inventory-angh.onrender.com/v3/api-docs/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
