@@ -1,0 +1,15 @@
+.auth-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1967d2, #4285f4);
+  padding: 16px;
+}
+.auth-card { width: 100%; max-width: 400px; overflow: hidden; }
+.auth-card h1 { font-size: 22px; margin: 8px 0 0; text-align: center; }
+.sub { color: #5f6368; text-align: center; margin: 4px 0 20px; }
+.sub.center { margin-top: 16px; }
+.hint { font-size: 12px; color: #9aa0a6; text-align: center; margin-top: 12px; }
+.full-width { width: 100%; }
+form { display: flex; flex-direction: column; }

@@ -1,0 +1,38 @@
+<div class="auth-wrap">
+  <mat-card class="auth-card">
+    @if (loading()) { <mat-progress-bar mode="indeterminate" /> }
+    <mat-card-content>
+      <h1>University Inventory</h1>
+      <p class="sub">Вход в систему</p>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+          @if (form.controls.email.hasError('required')) {
+            <mat-error>Email обязателен</mat-error>
+          }
+          @if (form.controls.email.hasError('email')) {
+            <mat-error>Некорректный email</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Пароль</mat-label>
+          <input matInput type="password" formControlName="password" />
+          @if (form.controls.password.hasError('required')) {
+            <mat-error>Пароль обязателен</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="full-width"
+                type="submit" [disabled]="loading() || form.invalid">
+          Войти
+        </button>
+      </form>
+      <p class="sub center">
+        Нет аккаунта? <a routerLink="/register">Регистрация</a>
+      </p>
+      <p class="hint">admin&#64;test.com / admin123 · it&#64;test.com / it123</p>
+    </mat-card-content>
+  </mat-card>
+</div>

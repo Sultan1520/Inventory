@@ -1,0 +1,20 @@
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+.card h3 { margin: 0 0 12px; font-size: 15px; }
+.bar-row, .list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  text-decoration: none;
+  color: inherit;
+}
+.list-row:hover { background: #f8f9fa; }
+.bar-count { font-weight: 600; }
+.muted { color: #9aa0a6; }
+@media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }

@@ -1,0 +1,51 @@
+<div class="page-header"><h1>Dashboard</h1></div>
+
+@if (loading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+@if (data(); as d) {
+  <div class="stat-grid">
+    <div class="stat-card"><div class="value">{{ d.totalEquipment }}</div><div class="label">Всего оборудования</div></div>
+    <div class="stat-card"><div class="value">{{ d.available }}</div><div class="label">Доступно</div></div>
+    <div class="stat-card"><div class="value">{{ d.assigned }}</div><div class="label">Закреплено</div></div>
+    <div class="stat-card"><div class="value">{{ d.inRepair }}</div><div class="label">В ремонте</div></div>
+    <div class="stat-card"><div class="value">{{ d.writtenOff }}</div><div class="label">Списано</div></div>
+    <div class="stat-card"><div class="value">{{ d.lost }}</div><div class="label">Потеряно</div></div>
+    <div class="stat-card"><div class="value">{{ d.totalRequests }}</div><div class="label">Заявок всего</div></div>
+    <div class="stat-card"><div class="value">{{ d.newRequests }}</div><div class="label">Новые заявки</div></div>
+    <div class="stat-card"><div class="value">{{ d.inProgressRequests }}</div><div class="label">В работе</div></div>
+    <div class="stat-card"><div class="value">{{ d.doneRequests }}</div><div class="label">Завершено</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Оборудование по категориям</h3>
+      @for (c of categoryEntries(d); track c.name) {
+        <div class="bar-row">
+          <span class="bar-label">{{ c.name }}</span>
+          <span class="bar-count">{{ c.count }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="card">
+      <h3>Последние 5 заявок</h3>
+      @for (r of d.latestRequests; track r.id) {
+        <a class="list-row" [routerLink]="['/repair-requests', r.id]">
+          <span>{{ r.title }}</span>
+          <app-status-chip [value]="r.status" />
+        </a>
+      } @empty { <p class="muted">Нет заявок</p> }
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Последние добавленные устройства</h3>
+    @for (e of d.latestEquipment; track e.id) {
+      <a class="list-row" [routerLink]="['/equipment', e.id]">
+        <span>{{ e.name }} · {{ e.inventoryNumber }}</span>
+        <app-status-chip [value]="e.status" />
+      </a>
+    } @empty { <p class="muted">Нет оборудования</p> }
+  </div>
+}

@@ -1,0 +1,88 @@
+<div class="page-header"><h1>Assignments</h1></div>
+
+@if (canManage) {
+  <div class="card" style="margin-bottom:16px">
+    <h3>Закрепить оборудование</h3>
+    <form [formGroup]="form" (ngSubmit)="assign()" class="filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Оборудование</mat-label>
+        <mat-select formControlName="equipmentId">
+          @for (e of equipment(); track e.id) {
+            <mat-option [value]="e.id">{{ e.name }} ({{ e.inventoryNumber }})</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      @if (isAdmin) {
+        <mat-form-field appearance="outline">
+          <mat-label>Пользователь</mat-label>
+          <mat-select formControlName="assignedToUserId">
+            <mat-option [value]="null">—</mat-option>
+            @for (u of users(); track u.id) {
+              <mat-option [value]="u.id">{{ u.fullName }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+
+      <mat-form-field appearance="outline">
+        <mat-label>Аудитория</mat-label>
+        <mat-select formControlName="assignedToRoomId">
+          <mat-option [value]="null">—</mat-option>
+          @for (r of rooms(); track r.id) {
+            <mat-option [value]="r.id">{{ r.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Комментарий</mat-label>
+        <input matInput formControlName="comment" />
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit">
+        <mat-icon>assignment_turned_in</mat-icon> Закрепить
+      </button>
+    </form>
+  </div>
+}
+
+<div class="card">
+  <table mat-table [dataSource]="data()">
+    <ng-container matColumnDef="equipment">
+      <th mat-header-cell *matHeaderCellDef>Оборудование</th>
+      <td mat-cell *matCellDef="let a">{{ a.equipmentName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="target">
+      <th mat-header-cell *matHeaderCellDef>Закреплено за</th>
+      <td mat-cell *matCellDef="let a">
+        {{ a.assignedToUserName || a.assignedToRoomName || '—' }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="assignedBy">
+      <th mat-header-cell *matHeaderCellDef>Кем</th>
+      <td mat-cell *matCellDef="let a">{{ a.assignedByName || '—' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="assignedDate">
+      <th mat-header-cell *matHeaderCellDef>Дата</th>
+      <td mat-cell *matCellDef="let a">{{ a.assignedDate | date:'short' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Статус</th>
+      <td mat-cell *matCellDef="let a"><app-status-chip [value]="a.status" /></td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Действия</th>
+      <td mat-cell *matCellDef="let a">
+        @if (canManage && a.status === 'ACTIVE') {
+          <button mat-stroked-button (click)="returnItem(a)">
+            <mat-icon>keyboard_return</mat-icon> Вернуть
+          </button>
+        }
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+  @if (data().length === 0) { <p class="muted" style="padding:16px">Нет закреплений</p> }
+</div>

@@ -1,0 +1,43 @@
+<div class="page-header">
+  <h1>Оборудование</h1>
+  <div>
+    <button mat-stroked-button routerLink="/equipment">
+      <mat-icon>arrow_back</mat-icon> Назад
+    </button>
+    @if (isAdmin && item()) {
+      <button mat-flat-button color="primary" (click)="edit()" style="margin-left:8px">
+        <mat-icon>edit</mat-icon> Редактировать
+      </button>
+    }
+  </div>
+</div>
+
+@if (loading()) { <mat-progress-bar mode="indeterminate" /> }
+
+@if (item(); as e) {
+  <div class="card">
+    <h2>{{ e.name }} <app-status-chip [value]="e.status" /></h2>
+    <div class="form-grid">
+      <div><b>Инв. номер:</b> {{ e.inventoryNumber }}</div>
+      <div><b>Серийный номер:</b> {{ e.serialNumber || '—' }}</div>
+      <div><b>Категория:</b> {{ e.categoryName || '—' }}</div>
+      <div><b>Аудитория:</b> {{ e.roomName || '—' }}</div>
+      <div><b>Состояние:</b> <app-status-chip [value]="e.condition" /></div>
+      <div><b>Ответственный:</b> {{ e.responsibleUserName || '—' }}</div>
+      <div><b>Дата покупки:</b> {{ e.purchaseDate || '—' }}</div>
+      <div><b>Цена:</b> {{ e.price ? (e.price | number) : '—' }}</div>
+      <div class="full-width"><b>Описание:</b> {{ e.description || '—' }}</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>История закреплений</h3>
+    @for (a of history(); track a.id) {
+      <div class="hist-row">
+        <span>{{ a.assignedToUserName || a.assignedToRoomName || '—' }}</span>
+        <span>{{ a.assignedDate | date:'short' }}</span>
+        <app-status-chip [value]="a.status" />
+      </div>
+    } @empty { <p class="muted">Нет записей</p> }
+  </div>
+}

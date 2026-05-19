@@ -1,0 +1,82 @@
+/* Global styles */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background: #f5f6fa; color: #202124; }
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.page-header h1 { font-size: 22px; font-weight: 500; margin: 0; }
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  padding: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+table { width: 100%; }
+.full-width { width: 100%; }
+.spacer { flex: 1 1 auto; }
+.mat-column-actions { width: 130px; text-align: right; }
+
+.loading-bar { margin: 24px 0; text-align: center; }
+
+.snack-success { background: #2e7d32; color: #fff; }
+.snack-error { background: #c62828; color: #fff; }
+.snack-success .mat-mdc-snack-bar-action,
+.snack-error .mat-mdc-snack-bar-action { color: #fff; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 20px;
+}
+@media (max-width: 700px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+}
+.stat-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.stat-card .value { font-size: 28px; font-weight: 600; }
+.stat-card .label { color: #5f6368; font-size: 13px; margin-top: 4px; }
+
+.muted { color: #9aa0a6; }
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+.hist-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.card h2 { font-size: 18px; margin: 0 0 16px; display: flex; align-items: center; gap: 10px; }
+.card h3 { font-size: 15px; margin: 0 0 12px; }
+a { color: #1967d2; }

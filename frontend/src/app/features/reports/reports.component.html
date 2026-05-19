@@ -1,0 +1,65 @@
+<div class="page-header">
+  <h1>Reports</h1>
+  <button mat-flat-button color="primary" (click)="exportCsv()">
+    <mat-icon>download</mat-icon> Экспорт оборудования (CSV)
+  </button>
+</div>
+
+<div class="card">
+  <mat-tab-group>
+    <mat-tab label="По аудиториям">
+      @for (group of byRoom(); track group.room) {
+        <h3 style="margin-top:16px">{{ group.room }}</h3>
+        <ul>
+          @for (e of group.items; track e.id) {
+            <li>{{ e.name }} ({{ e.inventoryNumber }}) — <app-status-chip [value]="e.status" /></li>
+          }
+        </ul>
+      } @empty { <p class="muted">Нет данных</p> }
+    </mat-tab>
+
+    <mat-tab label="В ремонте">
+      <table mat-table [dataSource]="inRepair()">
+        <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Название</th><td mat-cell *matCellDef="let e">{{ e.name }}</td></ng-container>
+        <ng-container matColumnDef="inventoryNumber"><th mat-header-cell *matHeaderCellDef>Инв. номер</th><td mat-cell *matCellDef="let e">{{ e.inventoryNumber }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Статус</th><td mat-cell *matCellDef="let e"><app-status-chip [value]="e.status" /></td></ng-container>
+        <ng-container matColumnDef="condition"><th mat-header-cell *matHeaderCellDef>Состояние</th><td mat-cell *matCellDef="let e"><app-status-chip [value]="e.condition" /></td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="eqCols"></tr>
+        <tr mat-row *matRowDef="let row; columns: eqCols"></tr>
+      </table>
+    </mat-tab>
+
+    <mat-tab label="Списано">
+      <table mat-table [dataSource]="writtenOff()">
+        <ng-container matColumnDef="name"><th mat-header-cell *matHeaderCellDef>Название</th><td mat-cell *matCellDef="let e">{{ e.name }}</td></ng-container>
+        <ng-container matColumnDef="inventoryNumber"><th mat-header-cell *matHeaderCellDef>Инв. номер</th><td mat-cell *matCellDef="let e">{{ e.inventoryNumber }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Статус</th><td mat-cell *matCellDef="let e"><app-status-chip [value]="e.status" /></td></ng-container>
+        <ng-container matColumnDef="condition"><th mat-header-cell *matHeaderCellDef>Состояние</th><td mat-cell *matCellDef="let e"><app-status-chip [value]="e.condition" /></td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="eqCols"></tr>
+        <tr mat-row *matRowDef="let row; columns: eqCols"></tr>
+      </table>
+    </mat-tab>
+
+    <mat-tab label="Закреплено">
+      <table mat-table [dataSource]="assigned()">
+        <ng-container matColumnDef="equipmentName"><th mat-header-cell *matHeaderCellDef>Оборудование</th><td mat-cell *matCellDef="let a">{{ a.equipmentName }}</td></ng-container>
+        <ng-container matColumnDef="target"><th mat-header-cell *matHeaderCellDef>За кем</th><td mat-cell *matCellDef="let a">{{ a.assignedToUserName || a.assignedToRoomName || '—' }}</td></ng-container>
+        <ng-container matColumnDef="assignedDate"><th mat-header-cell *matHeaderCellDef>Дата</th><td mat-cell *matCellDef="let a">{{ a.assignedDate | date:'short' }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Статус</th><td mat-cell *matCellDef="let a"><app-status-chip [value]="a.status" /></td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="asgCols"></tr>
+        <tr mat-row *matRowDef="let row; columns: asgCols"></tr>
+      </table>
+    </mat-tab>
+
+    <mat-tab label="История заявок">
+      <table mat-table [dataSource]="history()">
+        <ng-container matColumnDef="title"><th mat-header-cell *matHeaderCellDef>Заголовок</th><td mat-cell *matCellDef="let r">{{ r.title }}</td></ng-container>
+        <ng-container matColumnDef="equipmentName"><th mat-header-cell *matHeaderCellDef>Оборудование</th><td mat-cell *matCellDef="let r">{{ r.equipmentName || '—' }}</td></ng-container>
+        <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Статус</th><td mat-cell *matCellDef="let r"><app-status-chip [value]="r.status" /></td></ng-container>
+        <ng-container matColumnDef="createdAt"><th mat-header-cell *matHeaderCellDef>Создана</th><td mat-cell *matCellDef="let r">{{ r.createdAt | date:'short' }}</td></ng-container>
+        <tr mat-header-row *matHeaderRowDef="histCols"></tr>
+        <tr mat-row *matRowDef="let row; columns: histCols"></tr>
+      </table>
+    </mat-tab>
+  </mat-tab-group>
+</div>

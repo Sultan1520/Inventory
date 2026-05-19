@@ -1,0 +1,61 @@
+<div class="auth-wrap">
+  <mat-card class="auth-card">
+    @if (loading()) { <mat-progress-bar mode="indeterminate" /> }
+    <mat-card-content>
+      <h1>Регистрация</h1>
+      <p class="sub">Создание учётной записи</p>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>ФИО</mat-label>
+          <input matInput formControlName="fullName" />
+          @if (form.controls.fullName.hasError('required')) {
+            <mat-error>Обязательное поле</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+          @if (form.controls.email.invalid && form.controls.email.touched) {
+            <mat-error>Некорректный email</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Пароль</mat-label>
+          <input matInput type="password" formControlName="password" />
+          @if (form.controls.password.hasError('minlength')) {
+            <mat-error>Минимум 4 символа</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Роль</mat-label>
+          <mat-select formControlName="role">
+            @for (r of roles; track r) {
+              <mat-option [value]="r">{{ r }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Должность</mat-label>
+          <input matInput formControlName="position" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Подразделение</mat-label>
+          <input matInput formControlName="department" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="full-width"
+                type="submit" [disabled]="loading() || form.invalid">
+          Зарегистрироваться
+        </button>
+      </form>
+      <p class="sub center">
+        Уже есть аккаунт? <a routerLink="/login">Войти</a>
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
